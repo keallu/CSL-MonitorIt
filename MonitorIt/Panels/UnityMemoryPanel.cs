@@ -115,8 +115,6 @@ namespace MonitorIt
             try
             {
                 name = "MonitorItUnityMemoryPanel";
-                atlas = ModProperties.Instance.Atlas;
-                backgroundSprite = "boxblue";
                 clipChildren = true;
 
                 if (parent != UIView.GetAView())
@@ -130,17 +128,17 @@ namespace MonitorIt
 
                 _totalAllocatedDesc = UIUtils.CreateLabel(this, "TotalAllocatedDesc", "allocated");
                 _totalAllocatedDesc.tooltip = "The amount of allocated memory by Unity";
-                _totalAllocatedDesc.textScale = 1f;
+                _totalAllocatedDesc.textScale = 0.6f;
                 _totalAllocatedDesc.relativePosition = new Vector3(15f, 15f);
 
                 _totalReservedDesc = UIUtils.CreateLabel(this, "TotalReservedDesc", "reserved");
                 _totalReservedDesc.tooltip = "The amount of reserved memory by Unity";
-                _totalReservedDesc.textScale = 1f;
+                _totalReservedDesc.textScale = 0.6f;
                 _totalReservedDesc.relativePosition = new Vector3(15f, 35f);
 
                 _totalUnusedDesc = UIUtils.CreateLabel(this, "TotalUnusedDesc", "unused");
                 _totalUnusedDesc.tooltip = "The amount of unused memory by Unity";
-                _totalUnusedDesc.textScale = 1f;
+                _totalUnusedDesc.textScale = 0.6f;
                 _totalUnusedDesc.relativePosition = new Vector3(15f, 55f);
 
                 _totalAllocatedValue = UIUtils.CreateLabel(this, "TotalAllocatedValue", "0");

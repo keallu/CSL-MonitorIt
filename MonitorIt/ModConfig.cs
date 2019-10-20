@@ -8,10 +8,12 @@
         public float ButtonPositionX { get; set; } = 0f;
         public float ButtonPositionY { get; set; } = 0f;
         public bool ShowPanel { get; set; } = true;
+        public string PanelColor { get; set; } = "red";
         public float PanelPositionX { get; set; } = 0f;
         public float PanelPositionY { get; set; } = 0f;
         public float RefreshInterval { get; set; } = 1f;
         public float ResetInterval { get; set; } = 300f;
+        public bool ShowTimePanel { get; set; } = true;
         public bool ShowFrameRatePanel { get; set; } = true;
         public bool ShowGameMemoryPanel { get; set; } = false;
         public bool ShowUnityMemoryPanel { get; set; } = true;

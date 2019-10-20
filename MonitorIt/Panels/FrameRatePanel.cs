@@ -135,8 +135,6 @@ namespace MonitorIt
             try
             {
                 name = "MonitorItFrameRatePanel";
-                atlas = ModProperties.Instance.Atlas;
-                backgroundSprite = "boxblue";
                 clipChildren = true;
 
                 if (parent != UIView.GetAView())

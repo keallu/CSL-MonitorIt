@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\..\Assemblies\0Harmony.dll</HintPath>
-    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
@@ -62,12 +59,11 @@
     <Compile Include="ModConfig.cs" />
     <Compile Include="ModInfo.cs" />
     <Compile Include="ModManager.cs" />
-    <Compile Include="ModProperties.cs" />
     <Compile Include="Panels\FrameRatePanel.cs" />
     <Compile Include="Panels\MonoMemoryPanel.cs" />
     <Compile Include="Panels\GameMemoryPanel.cs" />
+    <Compile Include="Panels\TimePanel.cs" />
     <Compile Include="Panels\UnityMemoryPanel.cs" />
-    <Compile Include="Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceLoader.cs" />
     <Compile Include="UIUtils.cs" />
@@ -77,6 +73,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icons\monitorit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icons\boxgreen.png" />
+    <EmbeddedResource Include="Icons\boxred.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -130,10 +130,8 @@ namespace MonitorIt
             try
             {
                 name = "MonitorItGameMemoryPanel";
-                atlas = ModProperties.Instance.Atlas;
-                backgroundSprite = "boxblue";
                 clipChildren = true;
-
+                
                 if (parent != UIView.GetAView())
                 {
                     size = new Vector2(parent.width, 105f);
@@ -145,22 +143,22 @@ namespace MonitorIt
 
                 _totalUsedPhysicalDesc = UIUtils.CreateLabel(this, "TotalUsedPhysicalDesc", "used physical");
                 _totalUsedPhysicalDesc.tooltip = "The amount of used physical memory by game";
-                _totalUsedPhysicalDesc.textScale = 1f;
+                _totalUsedPhysicalDesc.textScale = 0.6f;
                 _totalUsedPhysicalDesc.relativePosition = new Vector3(15f, 15f);
 
                 _totalUsedVirtualDesc = UIUtils.CreateLabel(this, "TotalUsedVirtualDesc", "used virtual");
                 _totalUsedVirtualDesc.tooltip = "The amount of used virtual memory by game";
-                _totalUsedVirtualDesc.textScale = 1f;
+                _totalUsedVirtualDesc.textScale = 0.6f;
                 _totalUsedVirtualDesc.relativePosition = new Vector3(15f, 35f);
 
                 _totalUsedPagedPoolDesc = UIUtils.CreateLabel(this, "TotalUsedPagedPoolDesc", "used paged");
                 _totalUsedPagedPoolDesc.tooltip = "The amount of used paged pool by game";
-                _totalUsedPagedPoolDesc.textScale = 1f;
+                _totalUsedPagedPoolDesc.textScale = 0.6f;
                 _totalUsedPagedPoolDesc.relativePosition = new Vector3(15f, 55f);
 
                 _totalUsedNonPagedPoolDesc = UIUtils.CreateLabel(this, "TotalUsedNonPagedPoolDesc", "used non-paged");
                 _totalUsedNonPagedPoolDesc.tooltip = "The amount of used non-paged pool by game";
-                _totalUsedNonPagedPoolDesc.textScale = 1f;
+                _totalUsedNonPagedPoolDesc.textScale = 0.6f;
                 _totalUsedNonPagedPoolDesc.relativePosition = new Vector3(15f, 75f);
 
                 _totalUsedPhysicalValue = UIUtils.CreateLabel(this, "TotalUsedPhysicalValue", "0");

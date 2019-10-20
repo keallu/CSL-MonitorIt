@@ -1,5 +1,4 @@
-﻿using Harmony;
-using ICities;
+﻿using ICities;
 using System;
 using System.Reflection;
 
@@ -10,17 +9,19 @@ namespace MonitorIt
         public string Name => "Monitor It!";
         public string Description => "Allows to monitor system resources and performance.";
 
-        public void OnEnabled()
+        private static readonly string[] PanelColorLabels =
         {
-            var harmony = HarmonyInstance.Create("com.github.keallu.csl.monitorit");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
-        }
+            "Red",
+            "Green",
+            "Blue"
+        };
 
-        public void OnDisabled()
+        private static readonly string[] PanelColorValues =
         {
-            var harmony = HarmonyInstance.Create("com.github.keallu.csl.monitorit");
-            harmony.UnpatchAll();
-        }
+            "red",
+            "green",
+            "blue"
+        };
 
         private static readonly string[] RefreshIntervalLabels =
         {
@@ -74,10 +75,17 @@ namespace MonitorIt
 
             group = helper.AddGroup(Name);
 
-            selected = ModConfig.Instance.ShowPanel;
-            group.AddCheckbox("Show Panel", selected, sel =>
+            selected = ModConfig.Instance.ShowButton;
+            group.AddCheckbox("Show Button", selected, sel =>
             {
-                ModConfig.Instance.ShowPanel = sel;
+                ModConfig.Instance.ShowButton = sel;
+                ModConfig.Instance.Save();
+            });
+
+            selectedIndex = GetSelectedOptionIndex(PanelColorValues, ModConfig.Instance.PanelColor);
+            group.AddDropdown("Panel Color", PanelColorLabels, selectedIndex, sel =>
+            {
+                ModConfig.Instance.PanelColor = PanelColorValues[sel];
                 ModConfig.Instance.Save();
             });
 
@@ -96,6 +104,13 @@ namespace MonitorIt
             });
 
             group = helper.AddGroup("Monitoring");
+
+            selected = ModConfig.Instance.ShowTimePanel;
+            group.AddCheckbox("Time", selected, sel =>
+            {
+                ModConfig.Instance.ShowTimePanel = sel;
+                ModConfig.Instance.Save();
+            });
 
             selected = ModConfig.Instance.ShowFrameRatePanel;
             group.AddCheckbox("Frame Rate", selected, sel =>
@@ -136,6 +151,14 @@ namespace MonitorIt
         }
 
         private int GetSelectedOptionIndex(float[] option, float value)
+        {
+            int index = Array.IndexOf(option, value);
+            if (index < 0) index = 0;
+
+            return index;
+        }
+
+        private int GetSelectedOptionIndex(string[] option, string value)
         {
             int index = Array.IndexOf(option, value);
             if (index < 0) index = 0;

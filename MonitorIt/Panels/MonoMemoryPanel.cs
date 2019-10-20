@@ -99,8 +99,6 @@ namespace MonitorIt
             try
             {
                 name = "MonitorItMonoMemoryPanel";
-                atlas = ModProperties.Instance.Atlas;
-                backgroundSprite = "boxblue";
                 clipChildren = true;
 
                 if (parent != UIView.GetAView())
@@ -114,12 +112,12 @@ namespace MonitorIt
 
                 _totalReservedDesc = UIUtils.CreateLabel(this, "TotalReservedDesc", "reserved");
                 _totalReservedDesc.tooltip = "The amount of reserved memory by Mono";
-                _totalReservedDesc.textScale = 1f;
+                _totalReservedDesc.textScale = 0.6f;
                 _totalReservedDesc.relativePosition = new Vector3(15f, 15f);
 
                 _totalUsedDesc = UIUtils.CreateLabel(this, "TotalUsedDesc", "used");
                 _totalUsedDesc.tooltip = "The amount of used memory by Mono";
-                _totalUsedDesc.textScale = 1f;
+                _totalUsedDesc.textScale = 0.6f;
                 _totalUsedDesc.relativePosition = new Vector3(15f, 35f);
 
                 _totalReservedValue = UIUtils.CreateLabel(this, "TotalReservedValue", "0");
