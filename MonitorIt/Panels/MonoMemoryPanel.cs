@@ -41,27 +41,27 @@ namespace MonitorIt
             {
                 if (_totalUsedText != null)
                 {
-                    Destroy(_totalUsedText);
+                    Destroy(_totalUsedText.gameObject);
                 }
                 if (_totalReservedText != null)
                 {
-                    Destroy(_totalReservedText);
+                    Destroy(_totalReservedText.gameObject);
                 }
                 if (_totalUsedValue != null)
                 {
-                    Destroy(_totalUsedValue);
+                    Destroy(_totalUsedValue.gameObject);
                 }
                 if (_totalReservedValue != null)
                 {
-                    Destroy(_totalReservedValue);
+                    Destroy(_totalReservedValue.gameObject);
                 }
                 if (_totalUsedDesc != null)
                 {
-                    Destroy(_totalUsedDesc);
+                    Destroy(_totalUsedDesc.gameObject);
                 }
                 if (_totalReservedDesc != null)
                 {
-                    Destroy(_totalReservedDesc);
+                    Destroy(_totalReservedDesc.gameObject);
                 }
             }
             catch (Exception e)
@@ -112,34 +112,34 @@ namespace MonitorIt
 
                 _totalReservedDesc = UIUtils.CreateLabel(this, "TotalReservedDesc", "reserved");
                 _totalReservedDesc.tooltip = "The amount of reserved memory by Mono";
-                _totalReservedDesc.textScale = 0.6f;
+                _totalReservedDesc.textScale = 0.7f;
                 _totalReservedDesc.relativePosition = new Vector3(15f, 15f);
 
                 _totalUsedDesc = UIUtils.CreateLabel(this, "TotalUsedDesc", "used");
                 _totalUsedDesc.tooltip = "The amount of used memory by Mono";
-                _totalUsedDesc.textScale = 0.6f;
+                _totalUsedDesc.textScale = 0.7f;
                 _totalUsedDesc.relativePosition = new Vector3(15f, 35f);
 
                 _totalReservedValue = UIUtils.CreateLabel(this, "TotalReservedValue", "0");
                 _totalReservedValue.autoSize = false;
                 _totalReservedValue.width = width / 2f - 45f;
                 _totalReservedValue.textAlignment = UIHorizontalAlignment.Right;
-                _totalReservedValue.textScale = 1f;
+                _totalReservedValue.textScale = 0.7f;
                 _totalReservedValue.relativePosition = new Vector3(width / 2f, 15f);
 
                 _totalUsedValue = UIUtils.CreateLabel(this, "TotalUsedValue", "0");
                 _totalUsedValue.autoSize = false;
                 _totalUsedValue.width = width / 2f - 45f;
                 _totalUsedValue.textAlignment = UIHorizontalAlignment.Right;
-                _totalUsedValue.textScale = 1f;
+                _totalUsedValue.textScale = 0.7f;
                 _totalUsedValue.relativePosition = new Vector3(width / 2f, 35f);
 
                 _totalReservedText = UIUtils.CreateLabel(this, "TotalReservedText", "MB");
-                _totalReservedText.textScale = 1f;
+                _totalReservedText.textScale = 0.7f;
                 _totalReservedText.relativePosition = new Vector3(width - 40f, 15f);
 
                 _totalUsedText = UIUtils.CreateLabel(this, "TotalUsedText", "MB");
-                _totalUsedText.textScale = 1f;
+                _totalUsedText.textScale = 0.7f;
                 _totalUsedText.relativePosition = new Vector3(width - 40f, 35f);
 
             }

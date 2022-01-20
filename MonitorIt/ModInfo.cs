@@ -1,6 +1,5 @@
 ﻿using ICities;
 using System;
-using System.Reflection;
 
 namespace MonitorIt
 {
@@ -11,6 +10,7 @@ namespace MonitorIt
 
         private static readonly string[] PanelColorLabels =
         {
+            "None",
             "Red",
             "Green",
             "Blue"
@@ -18,6 +18,7 @@ namespace MonitorIt
 
         private static readonly string[] PanelColorValues =
         {
+            "none",
             "red",
             "green",
             "blue"
@@ -103,6 +104,20 @@ namespace MonitorIt
                 ModConfig.Instance.Save();
             });
 
+            group.AddSpace(10);
+
+            group.AddButton("Reset Positioning of Button", () =>
+            {
+                ModProperties.Instance.ResetButtonPosition();
+            });
+
+            group.AddSpace(10);
+
+            group.AddButton("Reset Positioning of Panel", () =>
+            {
+                ModProperties.Instance.ResetPanelPosition();
+            });
+
             group = helper.AddGroup("Monitoring");
 
             selected = ModConfig.Instance.ShowTimePanel;
@@ -116,6 +131,13 @@ namespace MonitorIt
             group.AddCheckbox("Frame Rate", selected, sel =>
             {
                 ModConfig.Instance.ShowFrameRatePanel = sel;
+                ModConfig.Instance.Save();
+            });
+
+            selected = ModConfig.Instance.ShowGameCpuPanel;
+            group.AddCheckbox("Game Processor (only available for Windows systems)", selected, sel =>
+            {
+                ModConfig.Instance.ShowGameCpuPanel = sel;
                 ModConfig.Instance.Save();
             });
 

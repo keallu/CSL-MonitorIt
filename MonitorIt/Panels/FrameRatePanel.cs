@@ -50,43 +50,43 @@ namespace MonitorIt
             {
                 if (_maxFpsText != null)
                 {
-                    Destroy(_maxFpsText);
+                    Destroy(_maxFpsText.gameObject);
                 }
                 if (_minFpsText != null)
                 {
-                    Destroy(_minFpsText);
+                    Destroy(_minFpsText.gameObject);
                 }
                 if (_avgFpsText != null)
                 {
-                    Destroy(_avgFpsText);
+                    Destroy(_avgFpsText.gameObject);
                 }
                 if (_currentMsText != null)
                 {
-                    Destroy(_currentMsText);
+                    Destroy(_currentMsText.gameObject);
                 }
                 if (_currentFpsText != null)
                 {
-                    Destroy(_currentFpsText);
+                    Destroy(_currentFpsText.gameObject);
                 }
                 if (_maxFpsValue != null)
                 {
-                    Destroy(_maxFpsValue);
+                    Destroy(_maxFpsValue.gameObject);
                 }
                 if (_minFpsValue != null)
                 {
-                    Destroy(_minFpsValue);
+                    Destroy(_minFpsValue.gameObject);
                 }
                 if (_avgFpsValue != null)
                 {
-                    Destroy(_avgFpsValue);
+                    Destroy(_avgFpsValue.gameObject);
                 }
                 if (_currentMsValue != null)
                 {
-                    Destroy(_currentMsValue);
+                    Destroy(_currentMsValue.gameObject);
                 }
                 if (_currentFpsValue != null)
                 {
-                    Destroy(_currentFpsValue);
+                    Destroy(_currentFpsValue.gameObject);
                 }
             }
             catch (Exception e)
@@ -122,7 +122,7 @@ namespace MonitorIt
                         _totalDeltaTime = 0f;
                         _totalFrames = 0f;
                     }
-                }                
+                }
             }
             catch (Exception e)
             {
@@ -146,7 +146,8 @@ namespace MonitorIt
                     size = new Vector2(250f, 75f);
                 }
 
-                _currentFpsValue = UIUtils.CreateLabel(this, "FpsValue", "0");
+                _currentFpsValue = UIUtils.CreateLabel(this, "CurrentFpsValue", "0");
+                _currentFpsValue.tooltip = "Frames per second";
                 _currentFpsValue.autoSize = false;
                 _currentFpsValue.height = 27f;
                 _currentFpsValue.width = width * (1f / 4f) - 5f;
@@ -154,7 +155,8 @@ namespace MonitorIt
                 _currentFpsValue.textScale = 1.5f;
                 _currentFpsValue.relativePosition = new Vector3(0f, 15f);
 
-                _currentMsValue = UIUtils.CreateLabel(this, "MsValue", "0");
+                _currentMsValue = UIUtils.CreateLabel(this, "CurrentMsValue", "0");
+                _currentMsValue.tooltip = "Milliseconds per frame";
                 _currentMsValue.autoSize = false;
                 _currentMsValue.height = 18f;
                 _currentMsValue.width = width * (1f / 4f) - 5f;
@@ -183,12 +185,14 @@ namespace MonitorIt
                 _maxFpsValue.textScale = 1f;
                 _maxFpsValue.relativePosition = new Vector3(width * (5f / 6f) - 5f, 35f);
 
-                _currentFpsText = UIUtils.CreateLabel(this, "FPSText", "fps");
+                _currentFpsText = UIUtils.CreateLabel(this, "FpsText", "fps");
+                _currentFpsText.tooltip = "Frames per second";
                 _currentFpsText.height = 27f;
                 _currentFpsText.textScale = 1.5f;
                 _currentFpsText.relativePosition = new Vector3(width * (1f / 4f) + 5f, 15f);
 
                 _currentMsText = UIUtils.CreateLabel(this, "MsText", "ms");
+                _currentMsText.tooltip = "Milliseconds per frame";
                 _currentMsText.height = 18f;
                 _currentMsText.textScale = 0.8f;
                 _currentMsText.relativePosition = new Vector3(width * (1f / 4f) + 5f, 45f);

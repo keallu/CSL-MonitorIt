@@ -15,6 +15,7 @@
         public float ResetInterval { get; set; } = 300f;
         public bool ShowTimePanel { get; set; } = true;
         public bool ShowFrameRatePanel { get; set; } = true;
+        public bool ShowGameCpuPanel { get; set; } = false;
         public bool ShowGameMemoryPanel { get; set; } = false;
         public bool ShowUnityMemoryPanel { get; set; } = true;
         public bool ShowMonoMemoryPanel { get; set; } = false;

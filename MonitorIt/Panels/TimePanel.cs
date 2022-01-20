@@ -38,11 +38,11 @@ namespace MonitorIt
             {
                 if (_currentDateValue != null)
                 {
-                    Destroy(_currentDateValue);
+                    Destroy(_currentDateValue.gameObject);
                 }
                 if (_currentTimeValue != null)
                 {
-                    Destroy(_currentTimeValue);
+                    Destroy(_currentTimeValue.gameObject);
                 }
             }
             catch (Exception e)

@@ -55,10 +55,12 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="Loading.cs" />
-    <Compile Include="MemoryInfo.cs" />
+    <Compile Include="Panels\GameProcessorPanel.cs" />
+    <Compile Include="SysInfo.cs" />
     <Compile Include="ModConfig.cs" />
     <Compile Include="ModInfo.cs" />
     <Compile Include="ModManager.cs" />
+    <Compile Include="ModProperties.cs" />
     <Compile Include="Panels\FrameRatePanel.cs" />
     <Compile Include="Panels\MonoMemoryPanel.cs" />
     <Compile Include="Panels\GameMemoryPanel.cs" />

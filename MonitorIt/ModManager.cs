@@ -16,6 +16,7 @@ namespace MonitorIt
         private UIDragHandle _mainDragHandle;
         private TimePanel _timePanel;
         private FrameRatePanel _frameRatePanel;
+        private GameProcessorPanel _gameProcessorPanel;
         private GameMemoryPanel _gameMemoryPanel;
         private UnityMemoryPanel _unityMemoryPanel;
         private MonoMemoryPanel _monoMemoryPanel;
@@ -60,35 +61,39 @@ namespace MonitorIt
             {
                 if (_monoMemoryPanel != null)
                 {
-                    Destroy(_monoMemoryPanel);
+                    Destroy(_monoMemoryPanel.gameObject);
                 }
                 if (_unityMemoryPanel != null)
                 {
-                    Destroy(_unityMemoryPanel);
+                    Destroy(_unityMemoryPanel.gameObject);
                 }
                 if (_gameMemoryPanel != null)
                 {
-                    Destroy(_gameMemoryPanel);
+                    Destroy(_gameMemoryPanel.gameObject);
+                }
+                if (_gameProcessorPanel != null)
+                {
+                    Destroy(_gameProcessorPanel.gameObject);
                 }
                 if (_frameRatePanel != null)
                 {
-                    Destroy(_frameRatePanel);
+                    Destroy(_frameRatePanel.gameObject);
                 }
                 if (_mainDragHandle != null)
                 {
-                    Destroy(_mainDragHandle);
+                    Destroy(_mainDragHandle.gameObject);
                 }
                 if (_mainPanel != null)
                 {
-                    Destroy(_mainPanel);
+                    Destroy(_mainPanel.gameObject);
                 }
                 if (_button != null)
                 {
-                    Destroy(_button);
+                    Destroy(_button.gameObject);
                 }
                 if (_buttonPanel != null)
                 {
-                    Destroy(_buttonPanel);
+                    Destroy(_buttonPanel.gameObject);
                 }
                 if (_monitorItAtlas != null)
                 {
@@ -145,7 +150,7 @@ namespace MonitorIt
             {
                 _mainPanel = UIUtils.CreatePanel("MonitorItMainPanel");
                 _mainPanel.width = 250f;
-                _mainPanel.zOrder = 0;
+                _mainPanel.zOrder = 25;
                 _mainPanel.autoLayout = true;
                 _mainPanel.autoLayoutDirection = LayoutDirection.Vertical;
                 _mainPanel.autoLayoutStart = LayoutStart.TopLeft;
@@ -167,6 +172,7 @@ namespace MonitorIt
                 _frameRatePanel = _mainPanel.AddUIComponent<FrameRatePanel>();
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
+                    _gameProcessorPanel = _mainPanel.AddUIComponent<GameProcessorPanel>();
                     _gameMemoryPanel = _mainPanel.AddUIComponent<GameMemoryPanel>();
                 }
                 _unityMemoryPanel = _mainPanel.AddUIComponent<UnityMemoryPanel>();
@@ -174,6 +180,7 @@ namespace MonitorIt
 
                 _timePanel.atlas = _monitorItAtlas;
                 _frameRatePanel.atlas = _monitorItAtlas;
+                _gameProcessorPanel.atlas = _monitorItAtlas;
                 _gameMemoryPanel.atlas = _monitorItAtlas;
                 _unityMemoryPanel.atlas = _monitorItAtlas;
                 _monoMemoryPanel.atlas = _monitorItAtlas;
@@ -244,16 +251,18 @@ namespace MonitorIt
                 _frameRatePanel.isVisible = ModConfig.Instance.ShowFrameRatePanel;
                 if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
+                    _gameProcessorPanel.isVisible = ModConfig.Instance.ShowGameCpuPanel;
                     _gameMemoryPanel.isVisible = ModConfig.Instance.ShowGameMemoryPanel;
                 }
                 _unityMemoryPanel.isVisible = ModConfig.Instance.ShowUnityMemoryPanel;
                 _monoMemoryPanel.isVisible = ModConfig.Instance.ShowMonoMemoryPanel;
 
-                _timePanel.backgroundSprite = "box" + ModConfig.Instance.PanelColor;
-                _frameRatePanel.backgroundSprite = "box" + ModConfig.Instance.PanelColor;
-                _gameMemoryPanel.backgroundSprite = "box" + ModConfig.Instance.PanelColor;
-                _unityMemoryPanel.backgroundSprite = "box" + ModConfig.Instance.PanelColor;
-                _monoMemoryPanel.backgroundSprite = "box" + ModConfig.Instance.PanelColor;
+                _timePanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+                _frameRatePanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+                _gameProcessorPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+                _gameMemoryPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+                _unityMemoryPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+                _monoMemoryPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
 
                 float mainPanelHeight = 0f;
 
