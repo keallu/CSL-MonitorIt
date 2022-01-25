@@ -1,5 +1,6 @@
 ﻿using ICities;
 using System;
+using System.Reflection;
 
 namespace MonitorIt
 {
@@ -74,7 +75,9 @@ namespace MonitorIt
             bool selected;
             int selectedIndex;
 
-            group = helper.AddGroup(Name);
+            AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
+
+            group = helper.AddGroup(Name + " - " + assemblyName.Version.Major + "." + assemblyName.Version.Minor);
 
             selected = ModConfig.Instance.ShowButton;
             group.AddCheckbox("Show Button", selected, sel =>

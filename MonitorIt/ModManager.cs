@@ -21,11 +21,47 @@ namespace MonitorIt
         private UnityMemoryPanel _unityMemoryPanel;
         private MonoMemoryPanel _monoMemoryPanel;
 
+        public void Awake()
+        {
+            try
+            {
+
+            }
+            catch (Exception e)
+            {
+                Debug.Log("[Monitor It!] ModManager:Awake -> Exception: " + e.Message);
+            }
+        }
+
         public void Start()
         {
             try
             {
-                _zoomButton = GameObject.Find("ZoomButton").GetComponent<UIMultiStateButton>();
+                if (_zoomButton == null)
+                {
+                    _zoomButton = GameObject.Find("ZoomButton")?.GetComponent<UIMultiStateButton>();
+                }
+
+                if (_zoomButton != null)
+                {
+                    ModProperties.Instance.ButtonDefaultPositionX = _zoomButton.absolutePosition.x;
+                    ModProperties.Instance.ButtonDefaultPositionY = _zoomButton.absolutePosition.y - (1 * 36f) - 5f;
+                }
+
+                if (ModConfig.Instance.ButtonPositionX == 0f && ModConfig.Instance.ButtonPositionY == 0f)
+                {
+                    ModConfig.Instance.ButtonPositionX = ModProperties.Instance.ButtonDefaultPositionX;
+                    ModConfig.Instance.ButtonPositionY = ModProperties.Instance.ButtonDefaultPositionY;
+                }
+
+                ModProperties.Instance.PanelDefaultPositionX = 10f;
+                ModProperties.Instance.PanelDefaultPositionY = 75f;
+
+                if (ModConfig.Instance.PanelPositionX == 0f && ModConfig.Instance.PanelPositionY == 0f)
+                {
+                    ModConfig.Instance.PanelPositionX = ModProperties.Instance.PanelDefaultPositionX;
+                    ModConfig.Instance.PanelPositionY = ModProperties.Instance.PanelDefaultPositionY;
+                }
 
                 _monitorItAtlas = LoadResources();
 
@@ -214,10 +250,14 @@ namespace MonitorIt
                             if (_mainPanel.isVisible)
                             {
                                 _mainPanel.Hide();
+                                ModConfig.Instance.ShowPanel = false;
+                                ModConfig.Instance.Save();
                             }
                             else
                             {
                                 _mainPanel.Show();
+                                ModConfig.Instance.ShowPanel = true;
+                                ModConfig.Instance.Save();
                             }
                         }
 
@@ -236,16 +276,11 @@ namespace MonitorIt
         {
             try
             {
-                if (ModConfig.Instance.PanelPositionX == 0f && ModConfig.Instance.PanelPositionY == 0f)
-                {
-                    _mainPanel.absolutePosition = new Vector3(10f, 75f);
-                }
-                else
-                {
-                    _mainPanel.absolutePosition = new Vector3(ModConfig.Instance.PanelPositionX, ModConfig.Instance.PanelPositionY);
-                }
+                _buttonPanel.isVisible = ModConfig.Instance.ShowButton;
+                _buttonPanel.absolutePosition = new Vector3(ModConfig.Instance.ButtonPositionX, ModConfig.Instance.ButtonPositionY);
 
                 _mainPanel.isVisible = ModConfig.Instance.ShowPanel;
+                _mainPanel.absolutePosition = new Vector3(ModConfig.Instance.PanelPositionX, ModConfig.Instance.PanelPositionY);
 
                 _timePanel.isVisible = ModConfig.Instance.ShowTimePanel;
                 _frameRatePanel.isVisible = ModConfig.Instance.ShowFrameRatePanel;
@@ -273,17 +308,6 @@ namespace MonitorIt
                 }
 
                 _mainPanel.height = mainPanelHeight;
-
-                if (ModConfig.Instance.ButtonPositionX == 0f && ModConfig.Instance.ButtonPositionY == 0f)
-                {
-                    _buttonPanel.absolutePosition = new Vector3(_zoomButton.absolutePosition.x, _zoomButton.absolutePosition.y - (1 * 36f) - 5f);
-                }
-                else
-                {
-                    _buttonPanel.absolutePosition = new Vector3(ModConfig.Instance.ButtonPositionX, ModConfig.Instance.ButtonPositionY);
-                }
-
-                _buttonPanel.isVisible = ModConfig.Instance.ShowButton;
             }
             catch (Exception e)
             {
