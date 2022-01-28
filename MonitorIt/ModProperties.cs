@@ -1,15 +1,11 @@
-﻿using System;
+﻿using ColossalFramework.UI;
+using System;
 using UnityEngine;
 
 namespace MonitorIt
 {
     public class ModProperties
     {
-        public float ButtonDefaultPositionX;
-        public float ButtonDefaultPositionY; 
-        public float PanelDefaultPositionX;
-        public float PanelDefaultPositionY;
-
         private static ModProperties instance;
 
         public static ModProperties Instance
@@ -24,8 +20,10 @@ namespace MonitorIt
         {
             try
             {
-                ModConfig.Instance.ButtonPositionX = ButtonDefaultPositionX;
-                ModConfig.Instance.ButtonPositionY = ButtonDefaultPositionY;
+                int modCollectionButtonPosition = 1;
+
+                ModConfig.Instance.ButtonPositionX = 10f;
+                ModConfig.Instance.ButtonPositionY = UIView.GetAView().GetScreenResolution().y * 0.875f - (modCollectionButtonPosition * 36f) - 5f;
                 ModConfig.Instance.Save();
             }
             catch (Exception e)
@@ -38,8 +36,8 @@ namespace MonitorIt
         {
             try
             {
-                ModConfig.Instance.PanelPositionX = PanelDefaultPositionX;
-                ModConfig.Instance.PanelPositionY = PanelDefaultPositionY;
+                ModConfig.Instance.PanelPositionX = 10f;
+                ModConfig.Instance.PanelPositionY = UIView.GetAView().GetScreenResolution().y / 6f;
                 ModConfig.Instance.Save();
             }
             catch (Exception e)

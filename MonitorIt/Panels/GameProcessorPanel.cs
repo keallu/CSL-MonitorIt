@@ -190,7 +190,7 @@ namespace MonitorIt
                 _currentUsageText.relativePosition = new Vector3(width * (1f / 4f) + 15f, 15f);
 
                 _processorsUsageText = UIUtils.CreateLabel(this, "ProcessorsText", "Cores");
-                _processorsUsageText.tooltip = "Number of processors available to the game";
+                _processorsUsageText.tooltip = "Number of virtual cores available to the game";
                 _processorsUsageText.height = 18f;
                 _processorsUsageText.textScale = 0.7f;
                 _processorsUsageText.relativePosition = new Vector3(width * (1f / 4f) + 5f, 45f);

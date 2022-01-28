@@ -136,7 +136,7 @@ namespace MonitorIt
             {
                 name = "MonitorItFrameRatePanel";
                 clipChildren = true;
-
+                
                 if (parent != UIView.GetAView())
                 {
                     size = new Vector2(parent.width, 75f);

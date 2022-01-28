@@ -7,12 +7,13 @@ namespace MonitorIt
     public class ModManager : MonoBehaviour
     {
         private bool _initialized;
-        private UIMultiStateButton _zoomButton;
 
         private UITextureAtlas _monitorItAtlas;
         private UIPanel _buttonPanel;
         private UIButton _button;
         private UIPanel _mainPanel;
+        private UIPanel _topPanel;
+        private UILabel _topHeader;
         private UIDragHandle _mainDragHandle;
         private TimePanel _timePanel;
         private FrameRatePanel _frameRatePanel;
@@ -37,30 +38,14 @@ namespace MonitorIt
         {
             try
             {
-                if (_zoomButton == null)
-                {
-                    _zoomButton = GameObject.Find("ZoomButton")?.GetComponent<UIMultiStateButton>();
-                }
-
-                if (_zoomButton != null)
-                {
-                    ModProperties.Instance.ButtonDefaultPositionX = _zoomButton.absolutePosition.x;
-                    ModProperties.Instance.ButtonDefaultPositionY = _zoomButton.absolutePosition.y - (1 * 36f) - 5f;
-                }
-
                 if (ModConfig.Instance.ButtonPositionX == 0f && ModConfig.Instance.ButtonPositionY == 0f)
                 {
-                    ModConfig.Instance.ButtonPositionX = ModProperties.Instance.ButtonDefaultPositionX;
-                    ModConfig.Instance.ButtonPositionY = ModProperties.Instance.ButtonDefaultPositionY;
+                    ModProperties.Instance.ResetButtonPosition();
                 }
-
-                ModProperties.Instance.PanelDefaultPositionX = 10f;
-                ModProperties.Instance.PanelDefaultPositionY = 75f;
 
                 if (ModConfig.Instance.PanelPositionX == 0f && ModConfig.Instance.PanelPositionY == 0f)
                 {
-                    ModConfig.Instance.PanelPositionX = ModProperties.Instance.PanelDefaultPositionX;
-                    ModConfig.Instance.PanelPositionY = ModProperties.Instance.PanelDefaultPositionY;
+                    ModProperties.Instance.ResetPanelPosition();
                 }
 
                 _monitorItAtlas = LoadResources();
@@ -118,6 +103,14 @@ namespace MonitorIt
                 if (_mainDragHandle != null)
                 {
                     Destroy(_mainDragHandle.gameObject);
+                }
+                if (_topHeader != null)
+                {
+                    Destroy(_topHeader.gameObject);
+                }
+                if (_topPanel != null)
+                {
+                    Destroy(_topPanel.gameObject);
                 }
                 if (_mainPanel != null)
                 {
@@ -186,17 +179,32 @@ namespace MonitorIt
             {
                 _mainPanel = UIUtils.CreatePanel("MonitorItMainPanel");
                 _mainPanel.width = 250f;
-                _mainPanel.zOrder = 25;
+                _mainPanel.height = 35f;
+                _mainPanel.isInteractive = false;
                 _mainPanel.autoLayout = true;
                 _mainPanel.autoLayoutDirection = LayoutDirection.Vertical;
                 _mainPanel.autoLayoutStart = LayoutStart.TopLeft;
-                _mainPanel.autoLayoutPadding = new RectOffset(0, 0, 0, 5);
-                _mainPanel.isInteractive = false;
+                _mainPanel.autoLayoutPadding = new RectOffset(0, 0, 5, 0);
 
-                _mainDragHandle = UIUtils.CreateDragHandle(_mainPanel, "MonitorItMainDragHandle");
+                _topPanel = UIUtils.CreatePanel(_mainPanel, "MonitorItDragPanel");
+                _topPanel.clipChildren = true;
+                _topPanel.width = 250f;
+                _topPanel.height = 35f;
+
+                _topHeader = UIUtils.CreateLabel(_topPanel, "MonitorItDragPanel", "Monitor It!");
+                _topHeader.autoSize = false;
+                _topHeader.width = 250f;
+                _topHeader.height = 25f;
+                _topHeader.textAlignment = UIHorizontalAlignment.Center;
+                _topHeader.textScale = 1.2f;
+                _topHeader.relativePosition = new Vector3(0f, 5f);
+
+                _mainDragHandle = UIUtils.CreateDragHandle(_topPanel, "MonitorItMainDragHandle");
                 _mainDragHandle.tooltip = "Drag to move panel";
-                _mainDragHandle.height = 10f;
+                _mainDragHandle.target = _mainPanel;
                 _mainDragHandle.width = 250f;
+                _mainDragHandle.height = 35f;
+                _mainDragHandle.relativePosition = new Vector3(0f, 0f);
                 _mainDragHandle.eventMouseUp += (component, eventParam) =>
                 {
                     ModConfig.Instance.PanelPositionX = _mainPanel.absolutePosition.x;
@@ -204,22 +212,26 @@ namespace MonitorIt
                     ModConfig.Instance.Save();
                 };
 
-                _timePanel = _mainPanel.AddUIComponent<TimePanel>();
-                _frameRatePanel = _mainPanel.AddUIComponent<FrameRatePanel>();
-                if (Application.platform == RuntimePlatform.WindowsPlayer)
+                if (_mainPanel != null)
                 {
-                    _gameProcessorPanel = _mainPanel.AddUIComponent<GameProcessorPanel>();
-                    _gameMemoryPanel = _mainPanel.AddUIComponent<GameMemoryPanel>();
-                }
-                _unityMemoryPanel = _mainPanel.AddUIComponent<UnityMemoryPanel>();
-                _monoMemoryPanel = _mainPanel.AddUIComponent<MonoMemoryPanel>();
+                    _timePanel = _mainPanel.AddUIComponent<TimePanel>();
+                    _frameRatePanel = _mainPanel.AddUIComponent<FrameRatePanel>();
+                    if (Application.platform == RuntimePlatform.WindowsPlayer)
+                    {
+                        _gameProcessorPanel = _mainPanel.AddUIComponent<GameProcessorPanel>();
+                        _gameMemoryPanel = _mainPanel.AddUIComponent<GameMemoryPanel>();
+                    }
+                    _unityMemoryPanel = _mainPanel.AddUIComponent<UnityMemoryPanel>();
+                    _monoMemoryPanel = _mainPanel.AddUIComponent<MonoMemoryPanel>();
 
-                _timePanel.atlas = _monitorItAtlas;
-                _frameRatePanel.atlas = _monitorItAtlas;
-                _gameProcessorPanel.atlas = _monitorItAtlas;
-                _gameMemoryPanel.atlas = _monitorItAtlas;
-                _unityMemoryPanel.atlas = _monitorItAtlas;
-                _monoMemoryPanel.atlas = _monitorItAtlas;
+                    _topPanel.atlas = _monitorItAtlas;
+                    _timePanel.atlas = _monitorItAtlas;
+                    _frameRatePanel.atlas = _monitorItAtlas;
+                    _gameProcessorPanel.atlas = _monitorItAtlas;
+                    _gameMemoryPanel.atlas = _monitorItAtlas;
+                    _unityMemoryPanel.atlas = _monitorItAtlas;
+                    _monoMemoryPanel.atlas = _monitorItAtlas;
+                }
 
                 _buttonPanel = UIUtils.CreatePanel("MonitorItButtonPanel");
                 _buttonPanel.zOrder = 25;
@@ -276,38 +288,48 @@ namespace MonitorIt
         {
             try
             {
-                _buttonPanel.isVisible = ModConfig.Instance.ShowButton;
-                _buttonPanel.absolutePosition = new Vector3(ModConfig.Instance.ButtonPositionX, ModConfig.Instance.ButtonPositionY);
-
-                _mainPanel.isVisible = ModConfig.Instance.ShowPanel;
-                _mainPanel.absolutePosition = new Vector3(ModConfig.Instance.PanelPositionX, ModConfig.Instance.PanelPositionY);
-
-                _timePanel.isVisible = ModConfig.Instance.ShowTimePanel;
-                _frameRatePanel.isVisible = ModConfig.Instance.ShowFrameRatePanel;
-                if (Application.platform == RuntimePlatform.WindowsPlayer)
+                if (_mainPanel != null)
                 {
-                    _gameProcessorPanel.isVisible = ModConfig.Instance.ShowGameCpuPanel;
-                    _gameMemoryPanel.isVisible = ModConfig.Instance.ShowGameMemoryPanel;
+                    _mainPanel.isVisible = ModConfig.Instance.ShowPanel;
+                    _mainPanel.absolutePosition = new Vector3(ModConfig.Instance.PanelPositionX, ModConfig.Instance.PanelPositionY);
+
+                    _timePanel.isVisible = ModConfig.Instance.ShowTimePanel;
+                    _frameRatePanel.isVisible = ModConfig.Instance.ShowFrameRatePanel;
+                    if (Application.platform == RuntimePlatform.WindowsPlayer)
+                    {
+                        _gameProcessorPanel.isVisible = ModConfig.Instance.ShowGameCpuPanel;
+                        _gameMemoryPanel.isVisible = ModConfig.Instance.ShowGameMemoryPanel;
+                    }
+                    _unityMemoryPanel.isVisible = ModConfig.Instance.ShowUnityMemoryPanel;
+                    _monoMemoryPanel.isVisible = ModConfig.Instance.ShowMonoMemoryPanel;
+
+                    _topPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+                    _timePanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+                    _frameRatePanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+                    _gameProcessorPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+                    _gameMemoryPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+                    _unityMemoryPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+                    _monoMemoryPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+
+                    float mainPanelHeight = 0f;
+
+                    foreach (UIComponent component in _mainPanel.components)
+                    {
+                        if (component is UIPanel && component.isVisible)
+                        {
+                            mainPanelHeight += component.height;
+                            mainPanelHeight += 5f;
+                        }
+                    }
+
+                    _mainPanel.height = mainPanelHeight;
                 }
-                _unityMemoryPanel.isVisible = ModConfig.Instance.ShowUnityMemoryPanel;
-                _monoMemoryPanel.isVisible = ModConfig.Instance.ShowMonoMemoryPanel;
 
-                _timePanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
-                _frameRatePanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
-                _gameProcessorPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
-                _gameMemoryPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
-                _unityMemoryPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
-                _monoMemoryPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
-
-                float mainPanelHeight = 0f;
-
-                foreach (UIComponent component in _mainPanel.components)
+                if (_buttonPanel != null)
                 {
-                    mainPanelHeight += component.height;
-                    mainPanelHeight += 5f;
+                    _buttonPanel.isVisible = ModConfig.Instance.ShowButton;
+                    _buttonPanel.absolutePosition = new Vector3(ModConfig.Instance.ButtonPositionX, ModConfig.Instance.ButtonPositionY);
                 }
-
-                _mainPanel.height = mainPanelHeight;
             }
             catch (Exception e)
             {

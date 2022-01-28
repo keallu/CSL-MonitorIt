@@ -6,7 +6,7 @@ namespace MonitorIt
     {
         public static UIPanel CreatePanel(string name)
         {
-            UIPanel panel = UIView.GetAView().AddUIComponent(typeof(UIPanel)) as UIPanel;
+            UIPanel panel = UIView.GetAView()?.AddUIComponent(typeof(UIPanel)) as UIPanel;
             panel.name = name;
 
             return panel;
