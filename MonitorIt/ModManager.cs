@@ -188,6 +188,7 @@ namespace MonitorIt
 
                 _topPanel = UIUtils.CreatePanel(_mainPanel, "MonitorItDragPanel");
                 _topPanel.clipChildren = true;
+                _topPanel.atlas = _monitorItAtlas;
                 _topPanel.width = 250f;
                 _topPanel.height = 35f;
 
@@ -212,26 +213,25 @@ namespace MonitorIt
                     ModConfig.Instance.Save();
                 };
 
-                if (_mainPanel != null)
+                _timePanel = _mainPanel.AddUIComponent<TimePanel>();
+                _frameRatePanel = _mainPanel.AddUIComponent<FrameRatePanel>();
+                if (Application.platform == RuntimePlatform.WindowsPlayer)
                 {
-                    _timePanel = _mainPanel.AddUIComponent<TimePanel>();
-                    _frameRatePanel = _mainPanel.AddUIComponent<FrameRatePanel>();
-                    if (Application.platform == RuntimePlatform.WindowsPlayer)
-                    {
-                        _gameProcessorPanel = _mainPanel.AddUIComponent<GameProcessorPanel>();
-                        _gameMemoryPanel = _mainPanel.AddUIComponent<GameMemoryPanel>();
-                    }
-                    _unityMemoryPanel = _mainPanel.AddUIComponent<UnityMemoryPanel>();
-                    _monoMemoryPanel = _mainPanel.AddUIComponent<MonoMemoryPanel>();
+                    _gameProcessorPanel = _mainPanel.AddUIComponent<GameProcessorPanel>();
+                    _gameMemoryPanel = _mainPanel.AddUIComponent<GameMemoryPanel>();
+                }
+                _unityMemoryPanel = _mainPanel.AddUIComponent<UnityMemoryPanel>();
+                _monoMemoryPanel = _mainPanel.AddUIComponent<MonoMemoryPanel>();
 
-                    _topPanel.atlas = _monitorItAtlas;
-                    _timePanel.atlas = _monitorItAtlas;
-                    _frameRatePanel.atlas = _monitorItAtlas;
+                _timePanel.atlas = _monitorItAtlas;
+                _frameRatePanel.atlas = _monitorItAtlas;
+                if (Application.platform == RuntimePlatform.WindowsPlayer)
+                {
                     _gameProcessorPanel.atlas = _monitorItAtlas;
                     _gameMemoryPanel.atlas = _monitorItAtlas;
-                    _unityMemoryPanel.atlas = _monitorItAtlas;
-                    _monoMemoryPanel.atlas = _monitorItAtlas;
                 }
+                _unityMemoryPanel.atlas = _monitorItAtlas;
+                _monoMemoryPanel.atlas = _monitorItAtlas;
 
                 _buttonPanel = UIUtils.CreatePanel("MonitorItButtonPanel");
                 _buttonPanel.zOrder = 25;
@@ -293,6 +293,8 @@ namespace MonitorIt
                     _mainPanel.isVisible = ModConfig.Instance.ShowPanel;
                     _mainPanel.absolutePosition = new Vector3(ModConfig.Instance.PanelPositionX, ModConfig.Instance.PanelPositionY);
 
+                    _topPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+
                     _timePanel.isVisible = ModConfig.Instance.ShowTimePanel;
                     _frameRatePanel.isVisible = ModConfig.Instance.ShowFrameRatePanel;
                     if (Application.platform == RuntimePlatform.WindowsPlayer)
@@ -302,12 +304,14 @@ namespace MonitorIt
                     }
                     _unityMemoryPanel.isVisible = ModConfig.Instance.ShowUnityMemoryPanel;
                     _monoMemoryPanel.isVisible = ModConfig.Instance.ShowMonoMemoryPanel;
-
-                    _topPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+                    
                     _timePanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
                     _frameRatePanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
-                    _gameProcessorPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
-                    _gameMemoryPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+                    if (Application.platform == RuntimePlatform.WindowsPlayer)
+                    {
+                        _gameProcessorPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+                        _gameMemoryPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+                    }
                     _unityMemoryPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
                     _monoMemoryPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
 
