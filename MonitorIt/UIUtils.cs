@@ -44,6 +44,7 @@ namespace MonitorIt
             button.name = name;
             button.atlas = atlas;
 
+            button.normalBgSprite = "OptionBase";
             button.hoveredBgSprite = "OptionBaseHovered";
             button.pressedBgSprite = "OptionBasePressed";
             button.disabledBgSprite = "OptionBaseDisabled";

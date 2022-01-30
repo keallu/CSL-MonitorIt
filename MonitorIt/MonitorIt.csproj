@@ -71,14 +71,7 @@
     <Compile Include="UIUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Icons\boxblue.png" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Icons\monitorit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Icons\boxgreen.png" />
-    <EmbeddedResource Include="Icons\boxred.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

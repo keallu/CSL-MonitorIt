@@ -9,22 +9,6 @@ namespace MonitorIt
         public string Name => "Monitor It!";
         public string Description => "Allows to monitor system resources and performance.";
 
-        private static readonly string[] PanelColorLabels =
-        {
-            "None",
-            "Red",
-            "Green",
-            "Blue"
-        };
-
-        private static readonly string[] PanelColorValues =
-        {
-            "none",
-            "red",
-            "green",
-            "blue"
-        };
-
         private static readonly string[] RefreshIntervalLabels =
         {
             "Every 1 seconds",
@@ -86,10 +70,10 @@ namespace MonitorIt
                 ModConfig.Instance.Save();
             });
 
-            selectedIndex = GetSelectedOptionIndex(PanelColorValues, ModConfig.Instance.PanelColor);
-            group.AddDropdown("Panel Color", PanelColorLabels, selectedIndex, sel =>
+            selected = ModConfig.Instance.ShowTitlePanel;
+            group.AddCheckbox("Show Title", selected, sel =>
             {
-                ModConfig.Instance.PanelColor = PanelColorValues[sel];
+                ModConfig.Instance.ShowTitlePanel = sel;
                 ModConfig.Instance.Save();
             });
 

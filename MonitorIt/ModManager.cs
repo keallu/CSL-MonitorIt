@@ -12,9 +12,9 @@ namespace MonitorIt
         private UIPanel _buttonPanel;
         private UIButton _button;
         private UIPanel _mainPanel;
-        private UIPanel _topPanel;
-        private UILabel _topHeader;
-        private UIDragHandle _mainDragHandle;
+        private UIPanel _titlePanel;
+        private UILabel _titleLabel;
+        private UIDragHandle _titleDragHandle;
         private TimePanel _timePanel;
         private FrameRatePanel _frameRatePanel;
         private GameProcessorPanel _gameProcessorPanel;
@@ -100,17 +100,17 @@ namespace MonitorIt
                 {
                     Destroy(_frameRatePanel.gameObject);
                 }
-                if (_mainDragHandle != null)
+                if (_titleDragHandle != null)
                 {
-                    Destroy(_mainDragHandle.gameObject);
+                    Destroy(_titleDragHandle.gameObject);
                 }
-                if (_topHeader != null)
+                if (_titleLabel != null)
                 {
-                    Destroy(_topHeader.gameObject);
+                    Destroy(_titleLabel.gameObject);
                 }
-                if (_topPanel != null)
+                if (_titlePanel != null)
                 {
-                    Destroy(_topPanel.gameObject);
+                    Destroy(_titlePanel.gameObject);
                 }
                 if (_mainPanel != null)
                 {
@@ -143,10 +143,7 @@ namespace MonitorIt
                 {
                     string[] spriteNames = new string[]
                     {
-                        "monitorit",
-                        "boxred",
-                        "boxgreen",
-                        "boxblue"
+                        "monitorit"
                     };
 
                     _monitorItAtlas = ResourceLoader.CreateTextureAtlas("MonitorItAtlas", spriteNames, "MonitorIt.Icons.");
@@ -186,27 +183,27 @@ namespace MonitorIt
                 _mainPanel.autoLayoutStart = LayoutStart.TopLeft;
                 _mainPanel.autoLayoutPadding = new RectOffset(0, 0, 5, 0);
 
-                _topPanel = UIUtils.CreatePanel(_mainPanel, "MonitorItDragPanel");
-                _topPanel.clipChildren = true;
-                _topPanel.atlas = _monitorItAtlas;
-                _topPanel.width = 250f;
-                _topPanel.height = 35f;
+                _titlePanel = UIUtils.CreatePanel(_mainPanel, "MonitorItTitlePanel");
+                _titlePanel.clipChildren = true;
+                _titlePanel.atlas = _monitorItAtlas;
+                _titlePanel.width = 250f;
+                _titlePanel.height = 35f;
 
-                _topHeader = UIUtils.CreateLabel(_topPanel, "MonitorItDragPanel", "Monitor It!");
-                _topHeader.autoSize = false;
-                _topHeader.width = 250f;
-                _topHeader.height = 25f;
-                _topHeader.textAlignment = UIHorizontalAlignment.Center;
-                _topHeader.textScale = 1.2f;
-                _topHeader.relativePosition = new Vector3(0f, 5f);
+                _titleLabel = UIUtils.CreateLabel(_titlePanel, "MonitorItTitleLabel", "Monitor It!");
+                _titleLabel.autoSize = false;
+                _titleLabel.width = 250f;
+                _titleLabel.height = 25f;
+                _titleLabel.textAlignment = UIHorizontalAlignment.Center;
+                _titleLabel.textScale = 1.2f;
+                _titleLabel.relativePosition = new Vector3(0f, 5f);
 
-                _mainDragHandle = UIUtils.CreateDragHandle(_topPanel, "MonitorItMainDragHandle");
-                _mainDragHandle.tooltip = "Drag to move panel";
-                _mainDragHandle.target = _mainPanel;
-                _mainDragHandle.width = 250f;
-                _mainDragHandle.height = 35f;
-                _mainDragHandle.relativePosition = new Vector3(0f, 0f);
-                _mainDragHandle.eventMouseUp += (component, eventParam) =>
+                _titleDragHandle = UIUtils.CreateDragHandle(_titlePanel, "MonitorItTitleDragHandle");
+                _titleDragHandle.tooltip = "Drag to move panel";
+                _titleDragHandle.target = _mainPanel;
+                _titleDragHandle.width = 250f;
+                _titleDragHandle.height = 35f;
+                _titleDragHandle.relativePosition = new Vector3(0f, 0f);
+                _titleDragHandle.eventMouseUp += (component, eventParam) =>
                 {
                     ModConfig.Instance.PanelPositionX = _mainPanel.absolutePosition.x;
                     ModConfig.Instance.PanelPositionY = _mainPanel.absolutePosition.y;
@@ -293,7 +290,7 @@ namespace MonitorIt
                     _mainPanel.isVisible = ModConfig.Instance.ShowPanel;
                     _mainPanel.absolutePosition = new Vector3(ModConfig.Instance.PanelPositionX, ModConfig.Instance.PanelPositionY);
 
-                    _topPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
+                    _titlePanel.isVisible = ModConfig.Instance.ShowTitlePanel;
 
                     _timePanel.isVisible = ModConfig.Instance.ShowTimePanel;
                     _frameRatePanel.isVisible = ModConfig.Instance.ShowFrameRatePanel;
@@ -304,16 +301,6 @@ namespace MonitorIt
                     }
                     _unityMemoryPanel.isVisible = ModConfig.Instance.ShowUnityMemoryPanel;
                     _monoMemoryPanel.isVisible = ModConfig.Instance.ShowMonoMemoryPanel;
-                    
-                    _timePanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
-                    _frameRatePanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
-                    if (Application.platform == RuntimePlatform.WindowsPlayer)
-                    {
-                        _gameProcessorPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
-                        _gameMemoryPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
-                    }
-                    _unityMemoryPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
-                    _monoMemoryPanel.backgroundSprite = ModConfig.Instance.PanelColor != "none" ? "box" + ModConfig.Instance.PanelColor : null;
 
                     float mainPanelHeight = 0f;
 
